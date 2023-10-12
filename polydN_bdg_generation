@@ -20,7 +20,7 @@ module load bedtools/2.30.0
 window_list=("6" "7" "8" "9" "10" )
 genome_chromsize=genome/Tbruceii_2018_chromsizes.txt
 genome=genome/TriTrypDB-55_TbruceiLister427_2018_Genome/TriTrypDB-55_TbruceiLister427_2018_Genome.fasta
-patterns=("AAAAAA" "AAAAAAA" "AAAAAAAA" "AAAAAAAAA" "AAAAAAAAAA" )
+patterns=("TTTTTT" "TTTTTTT" "TTTTTTTT" "TTTTTTTTT" "TTTTTTTTTT" )
 prefix=Tb_427-2018
 
 for y in 0 1 2 3 4 ; do
