@@ -45,7 +45,6 @@ for y in 0 1 2 3 4 ; do
         -i NucComp_$prefix\_${window_list[$y]}\bps_step1_${patterns[$y]}\.bdg \
         > mergedNucComp_$prefix\_${window_list[$y]}\bps_step1_${patterns[$y]}\.bdg  &&
 
-    sort -k1,1 -k2,2n mergedNucComp_$prefix\_${window_list[$y]}\bps_step1_${patterns[$y]}\.bdg  > mergedNucComp_$prefix\_${window_list[$y]}\bps_step1_${patterns[$y]}\_sorted.bdg 
-;done 
+    sort -k1,1 -k2,2n mergedNucComp_$prefix\_${window_list[$y]}\bps_step1_${patterns[$y]}\.bdg  > mergedNucComp_$prefix\_${window_list[$y]}\bps_step1_${patterns[$y]}\_sorted.bdg ; done 
 
 
