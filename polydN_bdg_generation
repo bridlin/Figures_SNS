@@ -17,32 +17,35 @@
 
 module load bedtools/2.30.0
 
-window='5'
-genome_chromsize='genome/TriTrypDB-62_TbruceiTREU927_Genome/TriTrypDB-62_TbruceiTREU927_chrom.sizes.txt'
-genome='genome/TriTrypDB-62_TbruceiTREU927_Genome/TriTrypDB-62_TbruceiTREU927_Genome.fasta'
-pattern='AAAAA'
-prefix='Tbruceii_927'
+window_list=("6" "7" "8" "9" "10" )
+genome_chromsize=genome/Tbruceii_2018_chromsizes.txt
+genome=genome/TriTrypDB-55_TbruceiLister427_2018_Genome/TriTrypDB-55_TbruceiLister427_2018_Genome.fasta
+patterns=("AAAAAA" "AAAAAAA" "AAAAAAAA" "AAAAAAAAA" "AAAAAAAAAA" )
+prefix=Tb_427-2018
+
+for y in 0 1 2 3 4 ; do
+    bedtools makewindows \
+        -g $genome_chromsize \
+        -w ${window_list[$y]} \
+        -s 1  \
+        > $prefix\_${window_list[$y]}\bps_step1.bed &&
+
+    bedtools nuc \
+        -fi $genome \
+        -bed Tbruceii_927_5bps_step1.bed \
+        -pattern ${patterns[$y]} \
+        > NucComp_$prefix\_${window_list[$y]}\bps_step1_${patterns[$y]}\.bed &&
+
+    awk  '{if ($13 > 0) print $1 "\t"  $2 "\t" $3 "\t" $13;}' NucComp_$prefix\_${window_list[$y]}\bps_step1_${patterns[$y]}\.bed > NucComp_$prefix\_${window_list[$y]}\bps_step1_${patterns[$y]}\.bdg  &&
+
+    sed -i -e "1d" NucComp_$prefix\_${window_list[$y]}\bps_step1_${patterns[$y]}\.bdg  &&
+
+    bedtools merge \
+        -c 4 -o sum  \
+        -i NucComp_$prefix\_${window_list[$y]}\bps_step1_${patterns[$y]}\.bdg \
+        > mergedNucComp_$prefix\_${window_list[$y]}\bps_step1_${patterns[$y]}\.bdg  &&
+
+    sort -k1,1 -k2,2n mergedNucComp_$prefix\_${window_list[$y]}\bps_step1_${patterns[$y]}\.bdg  > mergedNucComp_$prefix\_${window_list[$y]}\bps_step1_${patterns[$y]}\_sorted.bdg 
+;done 
 
 
-bedtools makewindows \
-	-g $genome_chromsize \
-	-w $window \
-	-s 1  \
-	> $prefix\_$window\bps_step1.bed
-
-bedtools nuc \
-    -fi $genome \
-    -bed Tbruceii_927_5bps_step1.bed \
-    -pattern $pattern \
-    > NucComp_$prefix\_$window\bps_step1_$pattern\.bed
-
-awk  '{if ($13 > 0) print $1 "\t"  $2 "\t" $3 "\t" $13;}' NucComp_$prefix\_$window\bps_step1_$pattern\.bed > NucComp_$prefix\_$window\bps_step1_$pattern\.bdg  
-
-sed -i -e "1d" NucComp_$prefix\_$window\bps_step1_$pattern\.bdg 
-
-bedtools merge \
-    -c 4 -o sum  \
-    -i NucComp_$prefix\_$window\bps_step1_$pattern\.bdg \
-    > mergedNucComp_$prefix\_$window\bps_step1_$pattern\.bdg 
-
-sort -k1,1 -k2,2n mergedNucComp_$prefix\_$window\bps_step1_$pattern\.bdg  > mergedNucComp_$prefix\_$window\bps_step1_$pattern\_sorted.bdg
