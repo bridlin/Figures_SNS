@@ -32,7 +32,7 @@ for y in 0 1 2 3 4 ; do
 
     bedtools nuc \
         -fi $genome \
-        -bed Tbruceii_927_5bps_step1.bed \
+        -bed $prefix\_${window_list[$y]}\bps_step1.bed \
         -pattern ${patterns[$y]} \
         > NucComp_$prefix\_${window_list[$y]}\bps_step1_${patterns[$y]}\.bed &&
 
