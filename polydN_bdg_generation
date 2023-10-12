@@ -24,11 +24,11 @@ patterns=("AAAAAA" "AAAAAAA" "AAAAAAAA" "AAAAAAAAA" "AAAAAAAAAA" )
 prefix=Tb_427-2018
 
 for y in 0 1 2 3 4 ; do
-    bedtools makewindows \
-        -g $genome_chromsize \
-        -w ${window_list[$y]} \
-        -s 1  \
-        > $prefix\_${window_list[$y]}\bps_step1.bed &&
+    # bedtools makewindows \
+    #     -g $genome_chromsize \
+    #     -w ${window_list[$y]} \
+    #     -s 1  \
+    #     > $prefix\_${window_list[$y]}\bps_step1.bed &&
 
     bedtools nuc \
         -fi $genome \
